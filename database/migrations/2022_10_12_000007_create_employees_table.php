@@ -15,6 +15,16 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('department_id');
+            $table->foreign('department_id')->references('id')->on('departments');
+            $table->unsignedBigInteger('designation_id');
+            $table->foreign('designation_id')->references('id')->on('designations');
+            $table->longText('profile_photo');
+            $table->string('company');
+            $table->string('mobile_no');
+            $table->string('join_date');
             $table->timestamps();
         });
     }

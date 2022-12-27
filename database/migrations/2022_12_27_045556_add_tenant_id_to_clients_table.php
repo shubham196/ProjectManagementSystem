@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('designations', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('clients', function (Blueprint $table) {
+            $table->foreignId('tenant_id')->nullable()->constrained();
         });
     }
 
@@ -26,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('designations');
+        Schema::table('clients', function (Blueprint $table) {
+            //
+        });
     }
 };
