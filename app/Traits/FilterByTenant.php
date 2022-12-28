@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
+
 trait FilterByTenant {
 
     public static function boot()
