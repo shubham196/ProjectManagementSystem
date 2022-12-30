@@ -42,7 +42,6 @@ class UserResource extends Resource
                 
                 TextInput::make('name'),
                 TextInput::make('email'),
-                TextInput::make('password'),
                 Select::make('roles')
                 ->multiple()
                 ->relationship('roles','name')
@@ -85,7 +84,6 @@ class UserResource extends Resource
     {
         return [
             'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }   
