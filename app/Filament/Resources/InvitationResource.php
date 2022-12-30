@@ -10,8 +10,11 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\BadgeColumn;
+use Illuminate\Validation\Rules\Exists;
 
 class InvitationResource extends Resource
 {
@@ -31,13 +34,24 @@ class InvitationResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('id'),
+                TextColumn::make('email'),
+                TextColumn::make('created_at'),
+                BadgeColumn::make('accepted_at')
+                ->color(static function ($state) {
+                   if ($state == 'active') {
+                       return 'success';
+                   } elseif ($state == 'pending') {
+                       return 'warning';
+                   }
+                   return 'danger';
+                })
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

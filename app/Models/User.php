@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'current_tenant_id',
+        'role_id',
     ];
 
     /**
@@ -45,6 +46,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+ 
     public function tenants()
     {
         return $this->belongsToMany(Tenant::class)

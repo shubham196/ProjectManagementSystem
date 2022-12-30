@@ -32,8 +32,6 @@ class EmployeeResource extends Resource
     {
         if (Auth::check()) {
             $user_id = Auth::id();
-
-           
             $options = User::where('current_tenant_id', $user_id)->get()->pluck('name', 'id');
        
         } else {
@@ -43,8 +41,8 @@ class EmployeeResource extends Resource
         ->schema([
             Card::make()
                 ->schema([
-                    Select::make('user_name')
-                    ->options($options)
+                    Select::make('user_id')
+                    ->options($options)->unique()
                     ->required(),
                     TextInput::make('name')
                     ->required()
@@ -53,10 +51,12 @@ class EmployeeResource extends Resource
                     TextInput::make('mobile_no')->required()->maxLength('10'),
                     TextInput::make('join_date')->required(),
                     TextInput::make('company')->required(),
-                        Select::make('department_id')
-                        ->relationship('department', 'name')->required(),
-                        Select::make('designation_id')
-                        ->relationship('designation', 'name')->required(),
+                    Select::make('department_id')
+                    ->relationship('department', 'name')->required(),
+                    Select::make('designation_id')
+                    ->relationship('designation', 'name')->required(),
+          
+
                 ])
                 ]);
     }
@@ -66,6 +66,7 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
+                TextColumn::make('user.name')->label('Username'),
                 TextColumn::make('user.email')->label('Email'),
                 TextColumn::make('mobile_no'),
                 TextColumn::make('join_date'),

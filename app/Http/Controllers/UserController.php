@@ -48,8 +48,6 @@ class UserController extends Controller
 
             auth()->user()->update(['current_tenant_id' => $invitation->tenant_id]);
 
-           
-
             $tenantDomain = str_replace('://', '://' . $invitation->tenant->subdomain . '.', config('app.url'));
             return redirect($tenantDomain . RouteServiceProvider::HOME);
         } else {
