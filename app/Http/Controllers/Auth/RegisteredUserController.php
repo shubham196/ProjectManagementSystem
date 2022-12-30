@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\Invitation;
 use App\Models\Tenant;
 use App\Models\User;
@@ -51,6 +52,7 @@ class RegisteredUserController extends Controller
             'subdomain' => ['sometimes', 'alpha', 'unique:tenants,subdomain'],
         ]);
         $invitation = NULL;
+      
         $email = $request->email;
         if ($request->token) {
             $invitation = Invitation::with('tenant')
@@ -63,6 +65,7 @@ class RegisteredUserController extends Controller
             }
 
             $email = $invitation->email;
+        
         }
 
         $user = User::create([
@@ -70,7 +73,7 @@ class RegisteredUserController extends Controller
             'email' => $email,
             'password' => Hash::make($request->password),
         ]);
-
+        
         $subdomain = $request->subdomain;
         if ($invitation) {
             $invitation->update(['accepted_at' => now()]);
@@ -87,7 +90,6 @@ class RegisteredUserController extends Controller
         }
 
         event(new Registered($user));
-
         Auth::login($user);
 
         $tenantDomain = str_replace('://', '://' . $subdomain . '.', config('app.url'));

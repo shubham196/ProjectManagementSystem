@@ -45,11 +45,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
     public function tenants()
     {
-        return $this->belongsToMany(Tenant::class)->withPivot('is_owner');
+        return $this->belongsToMany(Tenant::class)
+                    ->where('user_id', auth()->id())
+                    ->withPivot('is_owner');
     }
-
- 
+    
+    public function employee()
+    {
+        return $this->belongsToMany(Employee::class)
+                    ->where('user_id', auth()->id());
+    }
 }

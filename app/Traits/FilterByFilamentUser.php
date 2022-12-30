@@ -3,9 +3,8 @@
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Permission\Traits\HasRoles;
-
-trait FilterByTenant {
+use App\Models\User;
+trait FilterByFilamentUser {
 
     public static function boot()
     {
@@ -13,12 +12,8 @@ trait FilterByTenant {
 
         $currentTenantID = auth()->user()->current_tenant_id;
 
-        self::creating(function($model) use ($currentTenantID) {
-            $model->tenant_id = $currentTenantID;
-        });
-
         self::addGlobalScope(function(Builder $builder) use ($currentTenantID) {
-            $builder->where('tenant_id', $currentTenantID);
+            $builder->where('current_tenant_id', $currentTenantID);
         });
 
         

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Models\Employee;
 use App\Models\Invitation;
 use App\Notifications\SendInvitationNotification;
 use App\Providers\RouteServiceProvider;
@@ -23,7 +24,8 @@ class UserController extends Controller
         $invitation = Invitation::create([
             'tenant_id' => auth()->user()->current_tenant_id,
             'email' => $request->email,
-            'token' => Str::random(32)
+            'token' => Str::random(32),
+      
         ]);
 
         Notification::route('mail', $request->email)
@@ -45,6 +47,8 @@ class UserController extends Controller
             auth()->user()->tenants()->attach($invitation->tenant_id);
 
             auth()->user()->update(['current_tenant_id' => $invitation->tenant_id]);
+
+           
 
             $tenantDomain = str_replace('://', '://' . $invitation->tenant->subdomain . '.', config('app.url'));
             return redirect($tenantDomain . RouteServiceProvider::HOME);
