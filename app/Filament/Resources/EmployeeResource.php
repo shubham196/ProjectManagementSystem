@@ -71,10 +71,10 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('Employee Name'),
+                TextColumn::make('name')->label('Employee Name')->searchable(),
                 TextColumn::make('user.name')->label('Username'),
                 TextColumn::make('user.email')->label('Email'),
-                TextColumn::make('mobile_no'),
+                TextColumn::make('mobile_no')->searchable(),
                 TextColumn::make('join_date'),
                 TextColumn::make('department.name'),
                 TextColumn::make('designation.name'),
@@ -82,7 +82,7 @@ class EmployeeResource extends Resource
               
             ])
             ->filters([
-                //
+                SelectFilter::make('Department')->relationship('department','name'),
             ])
             ->actions([
                 
