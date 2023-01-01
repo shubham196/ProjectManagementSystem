@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Traits\FilterByTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\Permission\Traits\HasRoles;
 class Project extends Model
 {
-    use HasFactory, FilterByTenant;
+    use HasFactory, FilterByTenant,HasRoles;
 
     protected $fillable = ['name','client_id','user_id','start_date','end_date','priority','team','description','status','files'];
 

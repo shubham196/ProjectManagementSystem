@@ -22,13 +22,16 @@ use PHPUnit\Framework\Test;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
 
+    protected static ?string $navigationGroup = 'Project Management';
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?int $navigationSort = 1 ;
 
     public static function form(Form $form): Form
     {
@@ -60,6 +63,7 @@ class ProjectResource extends Resource
                     ->required(),
                   
                   Select::make('team')
+                  
                   ->options($options)
                     ->multiple()
                     ->required()
@@ -93,10 +97,12 @@ class ProjectResource extends Resource
                 
             ])
             ->filters([
-                //
+                Filter::make('priority'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -116,6 +122,7 @@ class ProjectResource extends Resource
             'index' => Pages\ListProjects::route('/'),
             'create' => Pages\CreateProject::route('/create'),
             'edit' => Pages\EditProject::route('/{record}/edit'),
+            'view' => Pages\ProjectView::route('/{record}/view'),
         ];
     }    
 }

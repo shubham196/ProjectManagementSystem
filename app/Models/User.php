@@ -60,6 +60,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class);
         
     }
+    public function task()
+    {
+        return $this->belongsToMany(Task::class);
+        
+    }
+
 
     public function employee()
     {
