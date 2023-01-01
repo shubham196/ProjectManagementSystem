@@ -17,7 +17,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
+use Filament\Pages\Page;
+use Filament\Resources\Pages\Page as PagesPage;
 use Filament\Tables\Columns\TextColumn;
+use GuzzleHttp\Promise\Create;
 
 class ClientResource extends Resource
 {
@@ -37,7 +40,7 @@ class ClientResource extends Resource
                 TextInput::make('email')->email()->required(),
                 TextInput::make('phone')
                 ->tel()
-                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
+                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->required(),
                 TextInput::make('company')->required(),
                 Select::make('size')
                     ->options([
@@ -78,7 +81,7 @@ class ClientResource extends Resource
                     ->label('Country')
                     ->options(Country::all()->pluck('name', 'id')->toArray())
                     ->reactive()
-                    ->afterStateUpdated(fn(callable $set) => $set('state_id', null))->required(),
+                    ->afterStateUpdated(fn(callable $set) => $set('state_id', null))->required()->preload(),
 
                 Select::make('state_id')
                     ->label('State')
@@ -133,6 +136,8 @@ class ClientResource extends Resource
     {
         return [
             'index' => Pages\ListClients::route('/'),
+            'create' => Pages\CreateClient::route('/Create'),
+            'edit' => Pages\EditClient::route('/{record}/edit'),
         ];
     }    
 }

@@ -7,6 +7,7 @@ use App\Filament\Resources\EmployeeResource\Pages;
 use App\Models\Employee;
 use Filament\Forms;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Form;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
@@ -47,15 +48,20 @@ class EmployeeResource extends Resource
                     TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                    TextInput::make('user.email')->required(),
-                    TextInput::make('mobile_no')->required()->maxLength('10'),
-                    TextInput::make('join_date')->required(),
+                    TextInput::make('email')->email()->required(),
+                    TextInput::make('mobile_no')
+                    ->tel()
+                    ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/')->required(),
+                    DatePicker::make('join_date')->required()->format('d/m/Y'),
                     TextInput::make('company')->required(),
                     Select::make('department_id')
                     ->relationship('department', 'name')->required(),
                     Select::make('designation_id')
                     ->relationship('designation', 'name')->required(),
-          
+                    // Select::make('role_id')
+                    // ->multiple()
+                    // ->relationship('roles','name')
+                    // ->preload(),
 
                 ])
                 ]);
@@ -65,7 +71,7 @@ class EmployeeResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')->label('Employee Name'),
                 TextColumn::make('user.name')->label('Username'),
                 TextColumn::make('user.email')->label('Email'),
                 TextColumn::make('mobile_no'),

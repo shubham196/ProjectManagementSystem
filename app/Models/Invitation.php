@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\FilterByTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invitation extends Model
 {
-    use HasFactory;
+    use HasFactory,FilterByTenant;
 
     protected $fillable = ['tenant_id', 'email', 'token', 'accepted_at'];
 

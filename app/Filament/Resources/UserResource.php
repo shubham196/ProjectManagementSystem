@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
-use App\Traits\FilterByTenant;
 use Dflydev\DotAccessData\Data;
 use Filament\Forms;
 use Filament\Resources\Form;

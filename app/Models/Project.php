@@ -10,11 +10,21 @@ class Project extends Model
 {
     use HasFactory, FilterByTenant;
 
-    protected $fillable = ['name','user_id','client_id','start_date','end_date','priority','leader','team','description','status','files'];
+    protected $fillable = ['name','client_id','user_id','start_date','end_date','priority','team','description','status','files'];
 
+    protected $casts = [
+        'team' => 'array',
+        
+    ];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class)->withPivot('is_owner');
+        return $this->belongsTo(User::class);
     }
+ 
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
 }

@@ -25,6 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'current_tenant_id',
+        'project_id',
        
     ];
 
@@ -37,7 +38,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+  
     /**
      * The attributes that should be cast.
      *
@@ -45,6 +46,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        
     ];
  
     public function tenants()
@@ -53,7 +55,12 @@ class User extends Authenticatable
                     ->where('user_id', auth()->id())
                     ->withPivot('is_owner');
     }
-    
+    public function project()
+    {
+        return $this->belongsToMany(Project::class);
+        
+    }
+
     public function employee()
     {
         return $this->belongsToMany(Employee::class)
