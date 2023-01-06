@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
+use Filament\Resources\RelationManagers\RelationManager;
+use App\Filament\Resources\ProjectResource\RelationManagers;
 use Dflydev\DotAccessData\Data;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -24,7 +26,8 @@ use Spatie\Permission\Models\Role;
 
 class UserResource extends Resource
 {
-   
+
+    
     
         // The authenticated user is authorized to view the user's details.
         // You can return the view or perform other actions here.
@@ -74,7 +77,6 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-          
         ];
     }
     
@@ -83,6 +85,7 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
+            'view' => Pages\ViewUser::route('/{record}/view'),
         ];
     }   
 }

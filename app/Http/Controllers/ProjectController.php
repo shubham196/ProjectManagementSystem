@@ -11,12 +11,13 @@ class ProjectController extends Controller
     {
         $projects = Project::all();
 
-        return view('projects.index', compact('projects'));
+        return view('filament.resources.project-resource.pages.project-view', ['projects'=>$projects]);
     }
 
     public function create()
     {
-        return view('projects.create');
+        $projects = Project::all();
+        return view('projects.create',['projects'=>$projects]);
     }
 
     public function store(StoreProjectRequest $request)

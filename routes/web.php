@@ -22,8 +22,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::get('filament/{id}', 'FilamentController@show');
     Route::resource('tasks', \App\Http\Controllers\TaskController::class);
-    Route::resource('projects', \App\Http\Controllers\ProjectController::class);
-
+    Route::resource('projects', 'ProjectController@index');
     Route::get('tenants/change/{tenantID}', [\App\Http\Controllers\TenantController::class, 'changeTenant'])
         ->name('tenants.change');
 

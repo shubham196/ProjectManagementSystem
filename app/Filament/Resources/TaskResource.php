@@ -31,6 +31,8 @@ class TaskResource extends Resource
 {
     protected static ?string $model = Task::class;
     protected static ?string $navigationGroup = 'Project Management';
+    
+
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     protected static ?int $navigationSort = 2 ;
     public static function form(Form $form): Form
@@ -56,16 +58,6 @@ class TaskResource extends Resource
                         'Low' => 'Low',
 
                     ])->required(),
-                    Select::make('user_id')->label('Assign By')
-                    ->relationship('user', 'name')
-                    ->options($options)
-                    ->required(),
-                  
-                  Select::make('team_id')->label('Team')
-                  ->options($options)
-                    ->multiple()
-                    ->required()
-                    ->preload(),
 
                 RichEditor::make('task_description'),
                 FileUpload::make('attachments')->multiple(),
@@ -93,12 +85,11 @@ class TaskResource extends Resource
             ->columns([
                 TextColumn::make('name')->label('Task Name')->searchable(),
                 TextColumn::make('project.name')->label('Project Name')->searchable(),
-                TextColumn::make('user.name')->label('Assignee')->searchable(),
+                TextColumn::make('users.name')->label('Assignee')->searchable(),
                 TextColumn::make('start_date')->label('Start Date')->searchable(),
                 TextColumn::make('end_date')->label('Due Date')->searchable(),
                 TextColumn::make('priority')->searchable(),
                 TextColumn::make('status')->searchable(),
-                TextColumn::make('team_id')->searchable(),
             ])
             ->filters([
                 SelectFilter::make('priority')
@@ -122,11 +113,11 @@ class TaskResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TaskUserRelationManager::class,
         ];
     }
     
