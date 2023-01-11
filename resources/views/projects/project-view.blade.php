@@ -91,56 +91,38 @@
 								</div>
 							</div>
 							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title m-b-20">Uploaded files</h5>
-									<ul class="files-list">
-										<li>
-											<div class="files-cont">
-												<div class="file-type">
-													<span class="files-icon"><i class="fa fa-file-pdf-o"></i></span>
-												</div>
-												<div class="files-info">
-													<span class="file-name text-ellipsis"><a href="#">AHA Selfcare Mobile Application Test-Cases.xls</a></span>
-													<span class="file-author"><a href="#">John Doe</a></span> <span class="file-date">May 31st at 6:53 PM</span>
-													<div class="file-size">Size: 14.8Mb</div>
-												</div>
-												<ul class="files-action">
-													<li class="dropdown dropdown-action">
-														<a href="" class="dropdown-toggle btn btn-link" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_horiz</i></a>
-														<div class="dropdown-menu dropdown-menu-right">
-															<a class="dropdown-item" href="javascript:void(0)">Download</a>
-															<a class="dropdown-item" href="#" data-toggle="modal" data-target="#share_files">Share</a>
-															<a class="dropdown-item" href="javascript:void(0)">Delete</a>
-														</div>
-													</li>
-												</ul>
-											</div>
-										</li>
-										<li>
-											<div class="files-cont">
-												<div class="file-type">
-													<span class="files-icon"><i class="fa fa-file-pdf-o"></i></span>
-												</div>
-												<div class="files-info">
-													<span class="file-name text-ellipsis"><a href="#">AHA Selfcare Mobile Application Test-Cases.xls</a></span>
-													<span class="file-author"><a href="#">Richard Miles</a></span> <span class="file-date">May 31st at 6:53 PM</span>
-													<div class="file-size">Size: 14.8Mb</div>
-												</div>
-												<ul class="files-action">
-													<li class="dropdown dropdown-action">
-														<a href="" class="dropdown-toggle btn btn-link" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_horiz</i></a>
-														<div class="dropdown-menu dropdown-menu-right">
-															<a class="dropdown-item" href="javascript:void(0)">Download</a>
-															<a class="dropdown-item" href="#" data-toggle="modal" data-target="#share_files">Share</a>
-															<a class="dropdown-item" href="javascript:void(0)">Delete</a>
-														</div>
-													</li>
-												</ul>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
+                    <div class="card-body">
+                        <h5 class="card-title m-b-20">Uploaded files</h5>
+                        <ul class="files-list">
+							
+							
+                            @if (!empty($project->files)) 
+                                @foreach ($record->attachments as $file) 
+                                    <li>
+                                        <div class="files-cont">
+                                            <div class="file-type">
+                                                <span class="files-icon"><i class="fa fa-file-o"></i></span>
+                                            </div>
+                                            <div class="files-info">
+                                                <span class="file-name text-ellipsis">
+                                                <a href="#">{{$file}}</a></span>
+                                                <div class="file-size">Size: {{is_file(asset('storage/projects/'.$project->name.'/'.$file)) ? \Storage::size(public_path('storage/projects/'.$project->name.'/'.$file)): ''}}</div>
+                                            </div>
+                                            <ul class="files-action">
+                                                <li class="dropdown dropdown-action">
+                                                    <a href="" class="dropdown-toggle btn btn-link" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_horiz</i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="{{!empty($file) ? asset('storage/projects/'.$project->name.'/'.$file): '#'}}">Download</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                </div>
 							<div class="project-task">
 								<ul class="nav nav-tabs nav-tabs-top nav-justified mb-0">
 									<li class="nav-item"><a class="nav-link active" href="#all_tasks" data-toggle="tab" aria-expanded="true">All Tasks</a></li>

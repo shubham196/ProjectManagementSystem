@@ -51,8 +51,6 @@ class TaskUserRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()->preloadRecordSelect(),
-              
-
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

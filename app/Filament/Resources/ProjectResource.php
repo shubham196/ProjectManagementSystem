@@ -25,7 +25,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-
+use Filament\Tables\Filters\SelectFilter;
+use App\Filament\Widgets\BlogPostsChart;
 class ProjectResource extends Resource
 {
     protected static ?string $model = Project::class;
@@ -41,7 +42,6 @@ class ProjectResource extends Resource
         foreach ($users as $user) {
             $options[$user->id] = $user->name;
         }
-        $var1 = json_encode($options);
 
         return $form
             ->schema([
@@ -74,25 +74,32 @@ class ProjectResource extends Resource
 
             ]);
     }
-    // public static function getEloquentQuery(): Builder
-    // {
-    //     $user = Project::where('user_id',) -> get();
-    //     return parent::getEloquentQuery()->whereBelongsTo($user);
-    // }
+
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('client.firstname'),
-                TextColumn::make('users.name'),
-                TextColumn::make('start_date'),
-                TextColumn::make('end_date'),
-                TextColumn::make('priority'),
+                TextColumn::make('name')->searchable(),
+                TextColumn::make('client.firstname')->searchable(),
+                TextColumn::make('users.name')->searchable(),
+                TextColumn::make('start_date')->searchable(),
+                TextColumn::make('end_date')->searchable(),
+                TextColumn::make('priority')->searchable(),
             ])
 
             ->filters([
-                Filter::make('priority'),
+                SelectFilter::make('priority')
+                ->options([
+                    'High' => 'High',
+                    'Medium' => 'Medium',
+                    'Low' => 'Low',
+                ]),
+                SelectFilter::make('status')
+                ->options([
+                    'Active' => 'Active',
+                    'Hold' => 'Hold',
+                    'Notice Period' => 'Notice Period',
+                ]),
             ])
             
             ->actions([
@@ -112,7 +119,12 @@ class ProjectResource extends Resource
             ]);
 
     }
-    
+    public static function getWidgets(): array
+    {
+        return [
+          BlogPostsChart::class,
+        ];
+    }
     public static function getRelations(): array
     {
         return [
@@ -130,8 +142,10 @@ class ProjectResource extends Resource
           
         ];
     }
-   
+        
 }
+   
+
 
   
    

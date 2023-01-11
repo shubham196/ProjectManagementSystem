@@ -7,6 +7,7 @@ use App\Filament\Resources\TaskResource\RelationManagers;
 use App\Models\Project;
 use App\Models\Client;
 use App\Models\Task;
+use Filament\Forms\Components\KeyValue;
 use App\Models\User;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms;
@@ -26,6 +27,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Support\Facades\Auth;
+
 
 class TaskResource extends Resource
 {
@@ -58,16 +60,20 @@ class TaskResource extends Resource
                         'Low' => 'Low',
 
                     ])->required(),
+                    Select::make('users_id')
+                    ->relationship('users','name')
+                    ->label('Assign To'),
 
                 RichEditor::make('task_description'),
                 FileUpload::make('attachments')->multiple(),
                 Select::make('status')
                 ->options([
-                    'Active' => 'Active',
-                    'Hold' => 'Hold',
-                    'Notice Period' => 'Notice Period',
+                    'Completed' => 'Completed',
+                    'In-progress' => 'In-progress',
+                    'Closed' => 'Closed',
                 ])->required(),
-               
+      
+                        
             ]);
            
     }
@@ -85,7 +91,7 @@ class TaskResource extends Resource
             ->columns([
                 TextColumn::make('name')->label('Task Name')->searchable(),
                 TextColumn::make('project.name')->label('Project Name')->searchable(),
-                TextColumn::make('users.name')->label('Assignee')->searchable(),
+                TextColumn::make('users.name')->label('Assign To')->searchable(),
                 TextColumn::make('start_date')->label('Start Date')->searchable(),
                 TextColumn::make('end_date')->label('Due Date')->searchable(),
                 TextColumn::make('priority')->searchable(),
@@ -104,6 +110,8 @@ class TaskResource extends Resource
                     'Hold' => 'Hold',
                     'Notice Period' => 'Notice Period',
                 ]),
+                SelectFilter::make('name')->relationship('users','name')
+               
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -117,7 +125,6 @@ class TaskResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\TaskUserRelationManager::class,
         ];
     }
     

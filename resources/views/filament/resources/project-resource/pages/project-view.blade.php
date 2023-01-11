@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     </head>
     <body>
+		
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
 		<div class="card">
@@ -54,12 +55,36 @@
 							</div>
 				
 							<div class="card">
-								<div class="card-body">
-				                    <h5 class="card-title m-b-20">Uploaded image files</h5>
-									
-								
-								</div>
-							</div>
+                    <div class="card-body">
+                        <h5 class="card-title m-b-20">Uploaded files</h5>
+                        <ul class="files-list">
+                            @if (!empty($project->files)) 
+                                @foreach ($record->attachments as $file) 
+                                    <li>
+                                        <div class="files-cont">
+                                            <div class="file-type">
+                                                <span class="files-icon"><i class="fa fa-file-o"></i></span>
+                                            </div>
+                                            <div class="files-info">
+                                                <span class="file-name text-ellipsis">
+                                                <a href="#">{{$attachments}}</a></span>
+                                                <div class="file-size">Size: {{is_file(asset('storage/app/'.$record->name.'/'.$attachments)) ? \Storage::size(public_path('storage/projects/'.$project->name.'/'.$file)): ''}}</div>
+                                            </div>
+                                            <ul class="files-action">
+                                                <li class="dropdown dropdown-action">
+                                                    <a href="" class="dropdown-toggle btn btn-link" data-bs-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_horiz</i></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="{{!empty($file) ? asset('storage/projects/'.$project->name.'/'.$file): '#'}}">Download</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </div>
+                </div>
 							<div class="card">
 								<div class="card-body">
 									<h5 class="card-title m-b-20">Uploaded files</h5>

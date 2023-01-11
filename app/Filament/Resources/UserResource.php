@@ -40,7 +40,6 @@ class UserResource extends Resource
       
         return $form
             ->schema([
-                
                 TextInput::make('name'),
                 TextInput::make('email'),
                 Select::make('roles')
@@ -49,10 +48,7 @@ class UserResource extends Resource
                 ->preload(),
             ]);
     }
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->where('current_tenant_id', Auth::id());
-    }
+
     public static function table(Table $table): Table
     {
         return $table
