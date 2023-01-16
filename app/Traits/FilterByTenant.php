@@ -2,8 +2,10 @@
 
 namespace App\Traits;
 
+
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Permission\Traits\HasRoles;
+
 
 trait FilterByTenant {
 

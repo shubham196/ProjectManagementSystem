@@ -5,7 +5,7 @@ use Closure;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Project;
-use Filament\Widgets\Widget;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Widgets\TableWidget as BaseWidget;
 class ProjectsLeader extends BaseWidget
 {
@@ -23,8 +23,8 @@ class ProjectsLeader extends BaseWidget
     protected function getTableColumns(): array
     {
         return [
-            Tables\Columns\TextColumn::make('created_at')->label('Time'),
-            Tables\Columns\TextColumn::make('users.name'),
+           TextColumn::make('created_at')->label('Time'),
+            TextColumn::make('users.name'),
         ];
     }
 

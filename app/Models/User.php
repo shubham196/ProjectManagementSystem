@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-
 
 class User extends Authenticatable
 {
@@ -27,7 +25,7 @@ class User extends Authenticatable
         'email',
         'password',
         'current_tenant_id',
-        
+        'project_id',
        
     ];
 
@@ -57,24 +55,21 @@ class User extends Authenticatable
                     ->where('user_id', auth()->id())
                     ->withPivot('is_owner');
     }
-    public function projects()
+    public function project()
     {
         return $this->belongsToMany(Project::class);
+        
     }
-
-    public function tasks()
+    public function task()
     {
         return $this->belongsToMany(Task::class);
         
     }
+
 
     public function employee()
     {
         return $this->belongsToMany(Employee::class)
                     ->where('user_id', auth()->id());
     }
-
-
-
 }
-
